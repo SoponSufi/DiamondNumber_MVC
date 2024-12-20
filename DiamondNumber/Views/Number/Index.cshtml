@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Diamond Pattern";
+    Layout = null;
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    button {
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    #diamond-container {
+        margin-top: 20px;
+        font-family: monospace;
+        white-space: pre;
+    }
+</style>
+
+<h2>Diamond Pattern</h2>
+
+<button onclick="generateDiamond(1)">1</button>
+<button onclick="generateDiamond(2)">2</button>
+<button onclick="generateDiamonds()">3</button>
+<button onclick="generateDiamond(3)">4</button>
+
+
+<div id="diamond-container"></div>
+
+
+<script>
+        function generateDiamonds() {
+            let n = 3;
+            let pattern = '';
+
+            for (let i = 1; i <= n; i++) {
+                let line = ' '.repeat(n - i);
+
+                for (let j = 1; j <= i; j++) {
+                    line += j;
+                }
+
+                for (let j = i - 1; j >= 1; j--) {
+                    line += j;
+                }
+
+                if (line === '12321') {
+                    line = ' 1331';
+                }
+
+                pattern += line + '\n';
+            }
+
+            for (let i = n - 1; i >= 1; i--) {
+                let line = ' '.repeat(n - i);
+
+                for (let j = 1; j <= i; j++) {
+                    line += j;
+                }
+
+                for (let j = i - 1; j >= 1; j--) {
+                    line += j;
+                }
+
+                pattern += line + '\n';
+            }
+
+
+            document.getElementById('diamond-container').textContent = pattern;
+        }
+
+
+        function generateDiamond(rows) {
+            const container = document.getElementById("diamond-container");
+            container.innerHTML = "";
+
+            const totalRows = rows * 2 - 1;
+
+            for (let i = 1; i <= totalRows; i += 2) {
+                const spaces = ' '.repeat((totalRows - i) / 2);
+                const numbers = generateRow(i);
+                const row = spaces + numbers + spaces;
+                console.log(row.trim());
+                container.innerHTML += row + "<br>";
+            }
+
+            for (let i = totalRows - 2; i >= 1; i -= 2) {
+                const spaces = ' '.repeat((totalRows - i) / 2);
+                const numbers = generateRow(i);
+                const row = spaces + numbers + spaces;
+                console.log(row.trim());
+                container.innerHTML += row + "<br>";
+            }
+        }
+
+        function generateRow(num) {
+            let row = [];
+            for (let i = 0; i < num; i++) {
+                row.push(combination(num - 1, i));
+            }
+            return row.join('');
+        }
+
+        function combination(n, k) {
+            return factorial(n) / (factorial(k) * factorial(n - k));
+        }
+
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 1; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+</script>
+
